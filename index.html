@@ -1,5 +1,20 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Personal notes on language models, hardware, and building things."><meta name="theme-color" content="#faf9f6"><title>Sarvajit Jonnalagadda | Notes &amp; Projects</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"></head><body><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="topbar"><a class="brand" href="index.html"><span>sj.</span>Sarvajit Jonnalagadda</a><nav class="nav" aria-label="Main navigation"><a href="index.html#writing">Writing</a><a href="https://github.com/sarvajit-j">GitHub ↗</a></nav></header>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Personal notes on language models, hardware, and building things."><meta name="theme-color" content="#faf9f6"><title>Sarvajit Jonnalagadda | Notes &amp; Projects</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/bunny-intro.css">
+<script id="bunny-bootstrap">
+(()=>{let seen=false;try{seen=sessionStorage.getItem('bunny-intro-v1')==='seen'}catch{}
+const query=new URLSearchParams(location.search),forced=query.get('intro')==='1';
+const active=query.get('intro')!=='0'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash&&(!seen||forced);
+let timeout;window.__bunnyIntro={active,finish(){this.active=false;clearTimeout(timeout);document.documentElement.classList.remove('bunny-pending');const layer=document.getElementById('bunny-intro');if(layer)layer.hidden=true;try{sessionStorage.setItem('bunny-intro-v1','seen')}catch{}}};
+if(active){document.documentElement.classList.add('bunny-pending');timeout=setTimeout(()=>window.__bunnyIntro.finish(),6000)}
+})();
+</script>
+<script defer src="assets/bunny-mesh.js" onerror="window.__bunnyIntro.finish()"></script>
+<script defer src="assets/bunny-intro.js" onerror="window.__bunnyIntro.finish()"></script></head><body><section class="bunny-intro" id="bunny-intro" aria-label="Woven bunny entrance animation" hidden>
+<canvas id="bunny-canvas" aria-hidden="true"></canvas>
+<div class="bunny-label">A little curiosity</div>
+<button class="bunny-skip" id="bunny-skip" type="button">Skip intro ↗</button>
+<div class="bunny-credit">Woven bunny study<span>Inspired by <a href="https://doi.org/10.1145/3306346.3323043">Weaving Geodesic Foliations (2019)</a></span></div>
+</section><a class="skip" href="#main">Skip to content</a><div class="wrap"><header class="topbar"><a class="brand" href="index.html"><span>sj.</span>Sarvajit Jonnalagadda</a><nav class="nav" aria-label="Main navigation"><a href="index.html#writing">Writing</a><a href="https://github.com/sarvajit-j">GitHub ↗</a></nav></header>
 <main id="main"><section class="hero"><div class="eyebrow">Notes & projects</div><h1>Hi, I’m Sarvajit.</h1><p class="intro">Take a look at my research below.</p></section>
 <section id="writing" aria-labelledby="writing-title"><div class="sectionbar"><h2 id="writing-title">Writing</h2><span>01 article</span></div><a class="entry" href="vocabulary.html"><span class="tag">INFERENCE</span><div><h3>Inference: Making a BPE tokenizer and doing vocabulary study ablations</h3><p>Building a story-generating language model for Reef. A beginner-friendly look at tokenizers, BPE, and the tradeoff between memory and prediction quality.</p><span class="entry-meta">Longhorn Silicon · Experiment notes</span></div><span class="arrow" aria-hidden="true">↗</span></a></section>
 <section class="about" id="about"><div class="eyebrow">Find me</div><div><a href="https://github.com/sarvajit-j">Find me on GitHub ↗</a></div></section></main>

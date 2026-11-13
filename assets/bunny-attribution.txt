@@ -1,0 +1,19 @@
+Woven-bunny entrance experiment
+
+Reference: the user's calendar photo of a colorful woven Stanford bunny.
+Paper: Weaving Geodesic Foliations, Josh Vekhter, Jiacheng Zhuo,
+Luisa F. Gil Fandino, Qixing Huang, Etienne Vouga (2019).
+https://doi.org/10.1145/3306346.3323043
+
+Base mesh: meshes/bunny_coarser.obj from the paper's research-code repository:
+https://github.com/the13fools/weaving-geodesic-foliations/blob/main/meshes/bunny_coarser.obj
+Retrieved for the Stanford bunny silhouette. Vertex positions normalized and
+normals computed for browser rendering.
+
+The colorful strips in this entrance are a new procedural approximation inspired
+by the calendar reference. They are not the paper's computed geodesic foliation,
+original woven mesh, or a reproduction of its algorithms.
+
+Implementation uses native WebGL with locally hosted assets. No network calls,
+tracking, audio, or external runtime libraries. The original page remains usable
+if JavaScript, WebGL, or the mesh is unavailable.
