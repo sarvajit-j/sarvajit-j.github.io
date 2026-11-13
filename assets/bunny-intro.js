@@ -3,6 +3,7 @@
 (()=>{'use strict';
  const boot=window.__bunnyIntro;if(!boot||!boot.active)return;
  const overlay=document.getElementById('bunny-intro'),canvas=document.getElementById('bunny-canvas'),skip=document.getElementById('bunny-skip');
+ if(boot.reduced){overlay.hidden=false;skip.addEventListener('click',()=>boot.finish());setTimeout(()=>boot.finish(),1200);return;}
  let gl,program,buffer,frameId=0,finished=false,disposed=false,start=0,count=0,uniforms;
  function dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frameId);window.removeEventListener('resize',resize);document.removeEventListener('keydown',key);if(gl){if(buffer)gl.deleteBuffer(buffer);if(program)gl.deleteProgram(program)}}
  function finish(){if(finished)return;finished=true;boot.finish();dispose();}
@@ -29,8 +30,8 @@
  function init(){
   const mesh=window.BUNNY_SCENE_DATA;if(!mesh)throw Error('Mesh unavailable');
   gl=canvas.getContext('webgl',{alpha:true,antialias:true,powerPreference:'low-power'});if(!gl)throw Error('WebGL unavailable');
-  const vs=shader(gl.VERTEX_SHADER,`attribute vec3 p;attribute vec3 n;attribute vec3 color;uniform float angle;uniform vec3 eye;uniform vec3 right;uniform vec3 up;uniform vec3 back;uniform float aspect;uniform float focal;varying vec3 normal;varying vec3 col;varying vec3 pos;vec3 turn(vec3 v){float c=cos(angle),s=sin(angle);return vec3(c*v.x+s*v.z,v.y,-s*v.x+c*v.z);}void main(){vec3 world=turn(p),delta=world-eye;vec3 view=vec3(dot(delta,right),dot(delta,up),dot(delta,back));float near=.012,far=60.;gl_Position=vec4(focal/aspect*view.x,focal*view.y,-(far+near)/(far-near)*view.z-2.*far*near/(far-near),-view.z);normal=turn(n);col=color;pos=world;}`);
-  const fs=shader(gl.FRAGMENT_SHADER,`precision mediump float;varying vec3 normal;varying vec3 col;varying vec3 pos;uniform vec3 eye;void main(){vec3 n=normalize(normal);if(!gl_FrontFacing)n=-n;vec3 light=normalize(vec3(-.4,1.,1.6));float diffuse=max(0.,dot(n,light));vec3 v=normalize(eye-pos);float rim=pow(1.-abs(dot(n,v)),3.);float spec=pow(max(0.,dot(reflect(-light,n),v)),24.)*.23;vec3 c=col*(.38+.72*diffuse)+vec3(.12,.16,.18)*rim+spec;gl_FragColor=vec4(c,1.);}`);
+  const vs=shader(gl.VERTEX_SHADER,`attribute vec3 p;attribute vec3 n;attribute vec3 color;uniform float angle;uniform mediump vec3 eye;uniform vec3 right;uniform vec3 up;uniform vec3 back;uniform float aspect;uniform float focal;varying mediump vec3 normal;varying mediump vec3 col;varying mediump vec3 pos;vec3 turn(vec3 v){float c=cos(angle),s=sin(angle);return vec3(c*v.x+s*v.z,v.y,-s*v.x+c*v.z);}void main(){vec3 world=turn(p),delta=world-eye;vec3 view=vec3(dot(delta,right),dot(delta,up),dot(delta,back));float near=.012,far=60.;gl_Position=vec4(focal/aspect*view.x,focal*view.y,-(far+near)/(far-near)*view.z-2.*far*near/(far-near),-view.z);normal=turn(n);col=color;pos=world;}`);
+  const fs=shader(gl.FRAGMENT_SHADER,`precision mediump float;varying mediump vec3 normal;varying mediump vec3 col;varying mediump vec3 pos;uniform mediump vec3 eye;void main(){vec3 n=normalize(normal);if(!gl_FrontFacing)n=-n;vec3 light=normalize(vec3(-.4,1.,1.6));float diffuse=max(0.,dot(n,light));vec3 v=normalize(eye-pos);float rim=pow(1.-abs(dot(n,v)),3.);float spec=pow(max(0.,dot(reflect(-light,n),v)),24.)*.23;vec3 c=col*(.38+.72*diffuse)+vec3(.12,.16,.18)*rim+spec;gl_FragColor=vec4(c,1.);}`);
   program=gl.createProgram();gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);gl.deleteShader(vs);gl.deleteShader(fs);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('Program linking failed');gl.useProgram(program);
   const data=geometry(mesh);if(!data.length||!data.every(Number.isFinite))throw Error('Invalid geometry');count=data.length/9;buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);
   ['p','n','color'].forEach((name,i)=>{const loc=gl.getAttribLocation(program,name);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,36,i*12)});
@@ -51,5 +52,5 @@
    if(elapsed>=2.55){finish();return}frameId=requestAnimationFrame(draw);
   };frameId=requestAnimationFrame(draw);
  }
- try{init()}catch(error){console.warn('Bunny intro skipped:',error.message);finish()}
+ try{init()}catch(error){console.warn('Bunny intro fallback:',error.message);dispose();overlay.hidden=false;overlay.classList.add('bunny-fallback');setTimeout(finish,2200)}
 })();
